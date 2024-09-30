@@ -1,0 +1,50 @@
+{
+  "name": "aptus-vs-code",
+  "displayName": "Aptus : Notebook Editor",
+  "description": "A notebook editor for your VS Code to help you write, plan and manage your ideas.",
+  "version": "0.0.2",
+  "publisher": "saban",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#000000",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aptus.openNotebook",
+        "title": "Open Aptus notebook"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js",
+    "build-webview": "cd webview-ui && npm run build",
+    "dev-webview": "cd webview-ui && npm run dev",
+    "watch-webview": "cd webview-ui && npm run watch"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.90.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdsaban/aptus-vs-code.git"
+  },
+  "homepage": "https://mdsaban.com/packages/aptus-vscode"
+}

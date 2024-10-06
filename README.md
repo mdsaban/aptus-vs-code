@@ -34,6 +34,6 @@ Contributions are welcome! If you'd like to contribute to the Aptus Notebook ext
 4. Push your branch to your forked repository.
 5. Submit a pull request detailing your changes.
 
-## License
+## Reference 
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+A special thanks to [Yoopta-editor](https://github.com/Darginec05/Yoopta-Editor/) for its use in Aptus!

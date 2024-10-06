@@ -1,0 +1,52 @@
+{
+  "name": "webview-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@yoopta/accordion": "^4.8.4",
+    "@yoopta/action-menu-list": "^4.8.4",
+    "@yoopta/blockquote": "^4.8.3",
+    "@yoopta/callout": "^4.8.4",
+    "@yoopta/code": "^4.8.4",
+    "@yoopta/divider": "^4.8.4",
+    "@yoopta/editor": "^4.8.4",
+    "@yoopta/embed": "^4.8.4",
+    "@yoopta/file": "^4.8.4",
+    "@yoopta/headings": "^4.8.4",
+    "@yoopta/image": "^4.8.4",
+    "@yoopta/link": "^4.8.4",
+    "@yoopta/link-tool": "^4.8.4",
+    "@yoopta/lists": "^4.8.4",
+    "@yoopta/marks": "^4.8.4",
+    "@yoopta/paragraph": "^4.8.4",
+    "@yoopta/table": "^4.8.4",
+    "@yoopta/toolbar": "^4.8.4",
+    "@yoopta/video": "^4.8.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "slate": "^0.102.0",
+    "slate-react": "^0.102.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.4.1"
+  }
+}

@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.yoopta-editor::selection {
+    color: red;
+    background: yellow;
+}
+
+.dark .footer {
+  background-color: #121212;
+}
+.footer {
+  background-color: #fff;
+}
+
+.dark .yoopta-block-actions-drag, .dark .yoopta-block-actions-plus{
+    color: #ccc;
+}
+
+.dark .yoopta-mark-code{
+  background-color: #2a2a2a;
+}
+
+.dark .yoopta-toolbar-root,
+.dark .yoopta-block-options-menu-content,   
+.dark .yoopta-action-menu-list-content ,
+.dark .yoopta-extended-block-actions
+ {
+  background-color: #121212;
+}
+
+.dark .aria-selected\:yoo-action-menu-bg-\[\#f0f0f0\][aria-selected=true],
+.dark .hover\:yoo-action-menu-bg-\[\#f4f4f5\]:hover,
+.dark .yoo-action-menu-bg-\[\#FFFFFF\],
+.dark .yoopta-toolbar-item-mark:hover,
+.dark .yoopta-toolbar-item-mark[aria-selected=true] {
+  background-color: #2a2a2a;
+}
+.dark .yoopta-extended-block-actions {
+  border: 1px solid #2a2a2a;
+}
+
+/* Hide color picker */
+.yoopta-toolbar-root  [aria-label="Highlight"]:has(.yoopta-toolbar-color-text) {
+  display: none;
+}
+

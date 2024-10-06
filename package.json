@@ -2,7 +2,7 @@
   "name": "aptus-vs-code",
   "displayName": "Aptus : Notebook Editor",
   "description": "A notebook editor for your VS Code to help you write, plan and manage your ideas.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "saban",
   "engines": {
     "vscode": "^1.90.0"

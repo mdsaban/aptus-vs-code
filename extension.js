@@ -28,7 +28,7 @@ const WITH_BASIC_INIT_VALUE = {
 };
 
 function activate(context) {
-  let disposable = vscode.commands.registerCommand('aptus.openNotebook', function() {
+  let disposable = vscode.commands.registerCommand('aptus.openNotebook', async function() {
     const panel = vscode.window.createWebviewPanel(
       'aptusNotebook',
       'Aptus Notebook',
@@ -40,11 +40,14 @@ function activate(context) {
       }
     );
 
-    // Restore the state
-    const savedState = context.workspaceState.get('aptus-state', '');
-    panel.webview.html = getWebviewContent(context, panel.webview, savedState);
+    // Pin the editor tab automatically
+    await vscode.commands.executeCommand('workbench.action.pinEditor');
 
-    // Pass savedState context to webview
+    // Set the webview's initial html content
+    panel.webview.html = getWebviewContent(context, panel.webview);
+
+        // Restore the state
+    const savedState = context.workspaceState.get('aptus-state', '');
     panel.webview.postMessage({
       command: 'savedState',
       savedState: Object.keys(savedState).length > 0 ? savedState : WITH_BASIC_INIT_VALUE
@@ -62,12 +65,13 @@ function activate(context) {
       undefined,
       context.subscriptions
     );
+
   });
 
   context.subscriptions.push(disposable);
 }
 
-function getWebviewContent(context, webview, savedState) {
+function getWebviewContent(context, webview) {
   const webviewUiFolder = path.join(context.extensionPath, 'webview-ui', 'dist', 'assets');
   
   // Read the contents of the dist folder

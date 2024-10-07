@@ -2,6 +2,8 @@
 
 A VS Code extension that provides a notebook editor for users to jot down their todos, work, and more. The editor resembles the Notion editor, offering a user-friendly interface for note-taking.
 
+#### 👉 [Install VS Code extension](https://marketplace.visualstudio.com/items?itemName=saban.aptus-vs-code)
+
 ![Aptus Notebook Demo](https://raw.githubusercontent.com/mdsaban/aptus-vs-code/refs/heads/main/assets/aptus-demo.gif)
 
 ## Features

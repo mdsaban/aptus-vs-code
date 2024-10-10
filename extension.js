@@ -28,7 +28,15 @@ const WITH_BASIC_INIT_VALUE = {
 };
 
 function activate(context) {
+  let currentPanel = undefined;
+
   let disposable = vscode.commands.registerCommand('aptus.openNotebook', async function() {
+    // If we already have a panel, show it instead of creating a new one
+    if (currentPanel) {
+      currentPanel.reveal(vscode.ViewColumn.One);
+      return;
+    }
+
     const panel = vscode.window.createWebviewPanel(
       'aptusNotebook',
       'Aptus Notebook',
@@ -39,6 +47,8 @@ function activate(context) {
         retainContextWhenHidden: true,
       }
     );
+
+    currentPanel = panel;
 
     // Pin the editor tab automatically
     await vscode.commands.executeCommand('workbench.action.pinEditor');
@@ -66,6 +76,10 @@ function activate(context) {
       context.subscriptions
     );
 
+    // When the panel is closed, remove the reference
+    panel.onDidDispose(() => {
+      currentPanel = undefined;
+    }, null, context.subscriptions);
   });
 
   context.subscriptions.push(disposable);

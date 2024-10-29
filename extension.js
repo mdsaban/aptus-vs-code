@@ -27,8 +27,24 @@ const WITH_BASIC_INIT_VALUE = {
   },
 };
 
+let currentPanel = undefined;
+
+
 function activate(context) {
-  let currentPanel = undefined;
+
+  vscode.window.registerWebviewPanelSerializer('aptusNotebook', {
+    async deserializeWebviewPanel(webviewPanel, state) {
+      currentPanel = webviewPanel;
+      
+      webviewPanel.webview.options = getWebviewOptions(context);
+      webviewPanel.webview.html = getWebviewContent(context, webviewPanel.webview);
+      
+      attachMessageHandlers(webviewPanel, context);
+      restorePanelData(context);
+      
+      handleDisposal(context);
+    }
+  });
 
   let disposable = vscode.commands.registerCommand('aptus.openNotebook', async function() {
     // If we already have a panel, show it instead of creating a new one
@@ -37,18 +53,9 @@ function activate(context) {
       return;
     }
 
-    const panel = vscode.window.createWebviewPanel(
-      'aptusNotebook',
-      'Aptus Notebook',
-      vscode.ViewColumn.One,
-      {
-        enableScripts: true,
-        localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'webview-ui', 'dist'))],
-        retainContextWhenHidden: true,
-      }
-    );
-
+    const panel = createWebviewPanel(context);
     currentPanel = panel;
+    context.workspaceState.update('aptus-opened', true);
 
     // Pin the editor tab automatically
     await vscode.commands.executeCommand('workbench.action.pinEditor');
@@ -56,33 +63,65 @@ function activate(context) {
     // Set the webview's initial html content
     panel.webview.html = getWebviewContent(context, panel.webview);
 
-        // Restore the state
-    const savedState = context.workspaceState.get('aptus-state', '');
-    panel.webview.postMessage({
-      command: 'savedState',
-      savedState: Object.keys(savedState).length > 0 ? savedState : WITH_BASIC_INIT_VALUE
-    });
+    restorePanelData(context);
+    attachMessageHandlers(panel, context);
 
-    // Handle messages from the webview
-    panel.webview.onDidReceiveMessage(
-      message => {
-        switch (message.command) {
-          case 'saveState':
-            context.workspaceState.update('aptus-state', message.state);
-            break;
-        }
-      },
-      undefined,
-      context.subscriptions
-    );
-
-    // When the panel is closed, remove the reference
-    panel.onDidDispose(() => {
-      currentPanel = undefined;
-    }, null, context.subscriptions);
+    handleDisposal(context);
   });
 
+
+
   context.subscriptions.push(disposable);
+}
+
+function restorePanelData(context) {
+  // Restore the state
+  const savedState = context.workspaceState.get('aptus-state', '');
+  currentPanel.webview.postMessage({
+    command: 'savedState',
+    savedState: Object.keys(savedState).length > 0 ? savedState : WITH_BASIC_INIT_VALUE
+  });
+}
+
+function createWebviewPanel(context) {
+  const panel = vscode.window.createWebviewPanel(
+    'aptusNotebook',
+    'Aptus Notebook',
+    vscode.ViewColumn.One,
+    getWebviewOptions(context)
+  );
+
+  return panel;
+}
+
+function attachMessageHandlers(panel, context) {
+  // Handle messages from the webview
+  panel.webview.onDidReceiveMessage(
+    message => {
+      switch (message.command) {
+        case 'saveState':
+          context.workspaceState.update('aptus-state', message.state);
+          break;
+      }
+    },
+    undefined,
+    context.subscriptions
+  );
+}
+
+function getWebviewOptions(context) {
+  return {
+    enableScripts: true,
+    localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'webview-ui', 'dist'))],
+    retainContextWhenHidden: true,
+  };
+}
+
+function handleDisposal(context) {
+  currentPanel.onDidDispose(() => {
+    currentPanel = undefined;
+    context.workspaceState.update('aptus-opened', false);
+  }, null, context.subscriptions);
 }
 
 function getWebviewContent(context, webview) {

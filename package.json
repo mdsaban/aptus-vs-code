@@ -16,7 +16,9 @@
     "theme": "dark"
   },
   "pricing": "Free",
-  "activationEvents": [],
+  "activationEvents": [
+    "onWebviewPanel:aptusNotebook"
+  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [

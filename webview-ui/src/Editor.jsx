@@ -188,18 +188,11 @@ function WithBaseFullSetup() {
 		};
 	}, []);
 
-  useEffect(() => {
-    function handleChange(value) {
-      // console.log("value", value);
-      const event = new CustomEvent("saveData", { detail: { value } });
-      window.dispatchEvent(event);
-    }
-    editor.on("change", handleChange);
-    return () => {
-      editor.off("change", handleChange);
-    };
-		
-  }, [editor]);
+  function handleChange(value) {
+    console.log("value", value);
+    const event = new CustomEvent("saveData", { detail: { value } });
+    window.dispatchEvent(event);
+  }
 
   return (
     <div className="w-full px-2" ref={selectionRef}>
@@ -212,6 +205,7 @@ function WithBaseFullSetup() {
         value={savedRawState}
         className="!w-full"
         autoFocus
+        onChange={handleChange}
       />}
     </div>
   );

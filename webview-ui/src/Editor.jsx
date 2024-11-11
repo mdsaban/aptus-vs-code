@@ -115,59 +115,6 @@ function WithBaseFullSetup() {
   const selectionRef = useRef(null);
 	const [savedRawState, setSavedRawState] = useState(null);
 
-  const addPastedImage = (imageURL) => {
-    editor.insertBlock(
-      {
-        id: generateId(),
-        value: [
-          {
-            id: generateId(),
-            type: "image",
-            children: [{ text: "" }],
-            props: {
-              nodeType: "void",
-              src: imageURL,
-              alt: "pasted image",
-              srcSet: null,
-              fit: "contain",
-            },
-          },
-        ],
-        type: "Image",
-        meta: {
-          order: 0,
-          depth: 0,
-          align: "left",
-        },
-      },
-      { at: [editor.selection[0] + 1] }
-    );
-  };
-
-  useEffect(() => {
-    const handlePaste = (event) => {
-      const items = event.clipboardData.items;
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf("image") !== -1) {
-          event.preventDefault(); // Block the default pasting in case of image
-          const blob = items[i].getAsFile();
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            addPastedImage(e.target.result);
-          };
-          reader.readAsDataURL(blob);
-        }
-      }
-    };
-
-    const div = selectionRef.current;
-    div.addEventListener("paste", handlePaste);
-
-    return () => {
-      div.removeEventListener("paste", handlePaste);
-    };
-  }, []);
-
 	useEffect(() => {
 		// Listen for messages from the extension
 		const messageHandler = (event) => {
@@ -189,7 +136,6 @@ function WithBaseFullSetup() {
 	}, []);
 
   function handleChange(value) {
-    console.log("value", value);
     const event = new CustomEvent("saveData", { detail: { value } });
     window.dispatchEvent(event);
   }
